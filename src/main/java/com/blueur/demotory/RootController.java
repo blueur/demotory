@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class RootController {
   @Autowired
@@ -36,12 +39,14 @@ public class RootController {
   @PostMapping
   public String put(@ModelAttribute Entry entry) {
     entriesMap().put(entry.getKey(), entry.getValue());
+    log.info("Put {}={}", entry.getKey(), entry.getValue());
     return "redirect:.";
   }
 
   @DeleteMapping("/{key}")
   public String delete(@PathVariable String key) {
     entriesMap().delete(key);
+    log.info("Delete {}", key);
     return "redirect:.";
   }
 }
